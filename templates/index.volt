@@ -1,0 +1,5 @@
+
+      {{ content() }}
+
+
+    {{ partial('partials/footer') }}
