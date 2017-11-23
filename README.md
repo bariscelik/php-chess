@@ -1,37 +1,28 @@
-## Welcome to GitHubx Pages
+## Giriş
 
-You can use the x z[editor on GitHub](https://github.com/bariscelik/php-chess/edit/master/README.md) to maintain and preview the content for your website in Markdown files.
+Çevrimiçi satranç oyunu projesi [Phalcon](https://phalconphp.com) ve [jQuery](https://jquery.com) kütüphaneleri kullanılarak oluşturulmuş, deneysel bir eğitim projesidir. Oyunun mümkün oldukça basit seviyede olması amaçlanmıştır.
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+Satranç oyununun kuralları baz alınarak, karşılıklı çevrimiçi oyuna imkan tanıyan bir yazılım oluşturulmuştur. 
 
-### Markdown
+Bu projeye katkı sunmak için [bu repoyu](https://github.com/bariscelik/php-chess) kullanabilirsiniz.
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+## Bölümler
 
-```markdown
-Syntax highlighted code block
+### Üyeler
 
-# Header 1
-## Header 2
-### Header 3
+Oyuna dahil olmak isteyen kullanıcılar bir hesap oluşturup, masa açma hakkına sahip olabilirler. 
 
-- Bulleted
-- List
+Üyelik sistemi:
+- kullanıcı kaydı
+- aktivasyonu
+- girişi
+- şifremi unuttum özelliği
+- kullanıcı puanı
 
-1. Numbered
-2. List
+ile sınırlı tutulmuştur.
 
-**Bold** and _Italic_ and `Code` text
+### Masalar
 
-[Link](url) and ![Image](src)
-```
+Oyunda birden fazla masa açılabilir. Yeni masa açan kullanıcı, bir rakibine davetiye gönderebilir ya da masaya birinin dahil olmasını bekleyebilir.
 
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
-
-### Jekyll Themes
-
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/bariscelik/php-chess/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
-
-### Support or Contact
-
-Having trouble with Pages? Check out our [documentation](https://help.github.com/categories/github-pages-basics/) or [contact support](https://github.com/contact) and we’ll help you sort it out.
+Masaya dahil olma talebinde bulunan kullanıcı, masa sahibi tarafından onaylandığı takdirde oyun başlar.
