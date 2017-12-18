@@ -14,7 +14,7 @@ ini_set('display_errors',1);
 // ******************** //
 // **** EXCEPTIONS **** //
 // ******************** //
-set_exception_handler(function($e){
+set_exception_handler(function(Exception $e){
     switch (get_class($e)) {
         case 'TypeError':
             echo 'Type is not mismatch !';
@@ -135,9 +135,9 @@ $app->map('/login',
                 $app->response->redirect('chess.php?_url=/login', true)->sendHeaders();
                 return false;
             }
-
+            $user = Users::findFirst(['email = ?1', 'bind' => [ 1 => $app->request->getPost('email') ]]);
             // get user by email
-            if(!($user = Users::findFirst(['email = ?1', 'bind' => [ 1 => $app->request->getPost('email') ]])))
+            if(!$user)
             {
                 $app->flashSession->error('There is no user by registered with this email!');
                 $app->response->redirect('chess.php?_url=/login', true)->sendHeaders();
@@ -153,7 +153,7 @@ $app->map('/login',
             }
 
             // user authorization
-            $app->session->set('auth', $app->request->getPost('email'));
+            $app->session->set('auth', $user->toArray());
 
             // go to boards list
             $app->response->redirect('chess.php?_url=/boards', true)->sendHeaders();
@@ -179,9 +179,7 @@ $app->map('/logout',
 $app->map('/fetch/{boardID}',
     function (int $boardID) use ($app) {
 
-        $chess = new Algorithm($boardID);
-
-        if($chess->board == false)
+        if(($chess = new Algorithm($boardID)) == false)
             return false;
 
         if($app->request->isPost())
@@ -195,13 +193,6 @@ $app->map('/fetch/{boardID}',
 $app->map('/boards/{id}',
     function (int $id) use ($app) {
         $board = Boards::findFirst($id);
-        
-        $color = 'b';
-
-        $result = ['TM' => $board->tm,
-                   'SM' => $board->sm,
-                   'tableHistory' => $board->history];
-
 
         $app->view->render('boards','single');
     }
@@ -211,12 +202,24 @@ $app->map('/boards/{id}',
 $app->map('/boards',
     function () use ($app) {
         $boards = Boards::find();
-        
-        $color = 'b';
 
-        /*$result = ['TM' => $board->tm,
-                   'SM' => $board->sm,
-                   'tableHistory' => $board->history];*/
+        $app->view->boards = $boards;
+
+        $app->view->render('boards','index');
+    }
+);
+
+// **** CREATE BOARD **** //
+$app->post('/create',
+    function () use ($app) {
+
+    if($app->request->isPost())
+    {
+
+    }
+    $board = new Boards();
+    
+        $boards = Boards::find();
 
         $app->view->boards = $boards;
 
@@ -233,7 +236,7 @@ $app->notFound(function () use ($app) {
 
 // **** APPLICATION ERROR **** //
 $app->error(
-    function ($exception) {
+    function (Exception $exception) {
         echo json_encode(
             [
                 'code'    => $exception->getCode(),

@@ -1,11 +1,20 @@
 <?php
 error_reporting(E_ERROR);
+
+// ********************* //
+// **** DEFINITIONS **** //
+// ********************* //
+class Position {
+    public $row;
+    public $col;
+};
+
 /**
-* 
-*/
+ * Class Algorithm
+ */
 class Algorithm
 {
-    private $_json;
+    // table matrix
     public  $tm = [[['t' => 'k', 'c' => 'b'],['t' => 'k', 'c' => 'b'],['t' => 'k', 'c' => 'b'],['t' => 'k', 'c' => 'b'],['t' => 'k', 'c' => 'b'],['t' => 'k', 'c' => 'b'],['t' => 'k', 'c' => 'b'],['t' => 'k', 'c' => 'b']],
     [['t' => 'k', 'c' => 'b'],['t' => 'k', 'c' => 'b'],['t' => 'k', 'c' => 'b'],['t' => 'k', 'c' => 'b'],['t' => 'k', 'c' => 'b'],['t' => 'k', 'c' => 'b'],['t' => 'k', 'c' => 'b'],['t' => 'k', 'c' => 'b']],
     [['t' => 'k', 'c' => 'b'],['t' => 'k', 'c' => 'b'],['t' => 'k', 'c' => 'b'],['t' => 'k', 'c' => 'b'],['t' => 'k', 'c' => 'b'],['t' => 'k', 'c' => 'b'],['t' => 'k', 'c' => 'b'],['t' => 'k', 'c' => 'b']],
@@ -15,12 +24,19 @@ class Algorithm
     [['t' => 'k', 'c' => 'b'],['t' => 'k', 'c' => 'b'],['t' => 'k', 'c' => 'b'],['t' => 'k', 'c' => 'b'],['t' => 'k', 'c' => 'b'],['t' => 'k', 'c' => 'b'],['t' => 'k', 'c' => 'b'],['t' => 'k', 'c' => 'b']],
     [['t' => 'k', 'c' => 'b'],['t' => 'k', 'c' => 'b'],['t' => 'k', 'c' => 'b'],['t' => 'k', 'c' => 'b'],['t' => 'k', 'c' => 'b'],['t' => 'k', 'c' => 'b'],['t' => 'k', 'c' => 'b'],['t' => 'k', 'c' => 'b']]];
 
+    // temporary table matrix
     public $tmp_tm = [];
 
-    public $board = false;
+    // single board model
+    private $board = false;
 
+    // movement history
+    private $history;
+
+    // json result
     private $result;
 
+    // space matrix
     private $sm = [];
 
     public function __construct(int $board_id)
@@ -31,6 +47,7 @@ class Algorithm
         $this->tm = json_decode($this->board->tm, true);
         $this->sm = json_decode($this->board->sm, true);
         $this->history = $this->board->history;
+        return true;
     }
 
     public function canMove($cpos, $tpos, $TM = null) : bool
@@ -125,7 +142,7 @@ class Algorithm
                         return $pathFree;
                     } else if ($absC === 0) {
                             for ($i = $cpos->row + $signR_t_c; $i !== $tpos->row; $i = $i + $signR_t_c) {
-                                if ($TM[i][$cpos->col] !== 0) {
+                                if ($TM[$i][$cpos->col] !== 0) {
                                     $pathFree = false;
                                 }
                             }
@@ -174,6 +191,8 @@ class Algorithm
         return false;
     }
 
+
+
     /**
      * if king is under attack
      *
@@ -183,6 +202,11 @@ class Algorithm
      */
     public function isCheckMate($cpos, $tpos) : bool
     {
+
+        // initialize
+        $BLACK_KING_POS = new Position();
+        $WHITE_KING_POS = new Position();
+        $piecePos = new Position();
 
         // item at current pos
         $cItem = $this->tm[$cpos->row][$cpos->col];

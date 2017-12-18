@@ -11,6 +11,9 @@
               <a class="nav-link" href="#">Oyunlar <span class="sr-only">(aktif)</span></a>
             </li>
             <li class="nav-item">
+              <a class="nav-link" href="#" data-toggle="modal" data-target="#createBoard">Masa Oluştur</a>
+            </li>
+            <li class="nav-item">
               <a class="nav-link" href="#">Ayarlar</a>
             </li>
             <li class="nav-item dropdown">
